@@ -15,11 +15,11 @@ import models.Users;
  * @author 813017
  */
 public class AccountService {
-        public Users login(String username, String password) {
+        public Users login(String email, String password) {
         UserDB userDB = new UserDB();
 
         try {
-            Users user = userDB.getUser(username);
+            Users user = userDB.getUser(email);
             if (password.equals(user.getPassword())) {
                 return user;
             }

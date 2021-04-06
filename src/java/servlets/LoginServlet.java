@@ -12,6 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.Users;
+import services.AccountService;
 
 /**
  *
@@ -32,7 +35,15 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+//        HttpSession session = request.getSession();
+//
+//        if (session.getAttribute("email") != null) {
+//            response.sendRedirect("home");
+//            return;
+//        }
+
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+
     }
 
     /**
@@ -46,6 +57,36 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+        AccountService as = new AccountService();
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        Users user = as.login(email, password);
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            request.setAttribute("loginmessage", "Be sure to fill in your log in credentials");
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            return;
+        }
+
+        if (user == null) {
+            request.setAttribute("loginmessage", "Login unsuccessful.");
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            return;
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("Name", user.getFirstName() + " " + user.getLastName());
+        if (user.getIsAdmin() == true && user.getIsActive() == true) {
+            response.sendRedirect("admin");
+
+        } else if (user.getIsActive() == true) {
+            response.sendRedirect("home");
+
+        } else {
+            request.setAttribute("loginmessage", "This account is inactive.");
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        }
     }
 }

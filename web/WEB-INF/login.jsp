@@ -18,7 +18,7 @@
         <br>
         <form method="post">
         <label for="title">Username: </label>
-        <input type="text" name="username" value="${username}">
+        <input type="text" name="email" value="${email}">
         <br>
         <label for="title">Password: </label>
         <input type="password" name="password" value="${password}">
@@ -26,7 +26,7 @@
         <input type="submit" name="login" value="Login">
         <br>
         <br>
-        <h4>${displayMessage}</h4>
+        <h4>${loginmessage}</h4>
 </form>
     </body>
 </html>
