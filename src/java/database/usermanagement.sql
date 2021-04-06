@@ -11,15 +11,16 @@ CREATE TABLE IF NOT EXISTS `usermanagementdb`.`users` (
 `user_ID` int AUTO_INCREMENT,
 `dateJoined` date,
 `email` varchar(55),
+`password` varchar(20),
 `firstName` varchar(30),
 `lastName` varchar(30),
 `dob` date,
-`isActive` CHAR,
-`isAdmin` CHAR,
+`isActive` BIT NOT NULL,
+`isAdmin` BIT NOT NULL,
 PRIMARY KEY(`user_ID`))
 ENGINE = InnoDB;
 
 
-INSERT INTO `users` (`user_ID`, `dateJoined`, `email`, `firstName`, `lastName`, `dob`, `isActive`, `isAdmin`) VALUES
-	(1, '2021-02-09', 'admin@usermanagement.com' ,'Admin', 'Leeson', '2000-08-21', 'T', 'T'),
-	(2, '2021-04-25', 'johndoe@email.com', 'John', 'Doe', '1994-05-12', 'T', 'F');
+INSERT INTO `users` (`user_ID`, `dateJoined`, `email`, `password`, `firstName`, `lastName`, `dob`, `isActive`, `isAdmin`) VALUES
+	(1, '2021-02-09', 'admin@usermanagement.com', 'admin', 'Admin', 'Leeson', '2000-08-21', 1, 1),
+	(2, '2021-04-25', 'johndoe@email.com', 'John', 'password', 'Doe', '1994-05-12', 1, 0);

@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author 813017
+ * @author Chels
  */
 @Entity
 @Table(name = "users")
@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Users.findByUserID", query = "SELECT u FROM Users u WHERE u.userID = :userID")
     , @NamedQuery(name = "Users.findByDateJoined", query = "SELECT u FROM Users u WHERE u.dateJoined = :dateJoined")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
+    , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
     , @NamedQuery(name = "Users.findByFirstName", query = "SELECT u FROM Users u WHERE u.firstName = :firstName")
     , @NamedQuery(name = "Users.findByLastName", query = "SELECT u FROM Users u WHERE u.lastName = :lastName")
     , @NamedQuery(name = "Users.findByDob", query = "SELECT u FROM Users u WHERE u.dob = :dob")
@@ -43,13 +44,15 @@ public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "user_ID", insertable = false)
+    @Column(name = "user_ID")
     private Integer userID;
     @Column(name = "dateJoined")
     @Temporal(TemporalType.DATE)
     private Date dateJoined;
     @Column(name = "email")
     private String email;
+    @Column(name = "password")
+    private String password;
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
@@ -57,16 +60,35 @@ public class Users implements Serializable {
     @Column(name = "dob")
     @Temporal(TemporalType.DATE)
     private Date dob;
+    @Basic(optional = false)
     @Column(name = "isActive")
-    private Character isActive;
+    private boolean isActive;
+    @Basic(optional = false)
     @Column(name = "isAdmin")
-    private Character isAdmin;
+    private boolean isAdmin;
 
     public Users() {
     }
 
     public Users(Integer userID) {
         this.userID = userID;
+    }
+    
+    public Users(Date dateJoined, String email, String password, String firstName, String lastName, Date dob, boolean isActive, boolean isAdmin) {
+        this.dateJoined = dateJoined;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.isActive = isActive;
+        this.isAdmin = isAdmin;
+    }
+
+    public Users(Integer userID, boolean isActive, boolean isAdmin) {
+        this.userID = userID;
+        this.isActive = isActive;
+        this.isAdmin = isAdmin;
     }
 
     public Integer getUserID() {
@@ -93,6 +115,14 @@ public class Users implements Serializable {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -117,19 +147,19 @@ public class Users implements Serializable {
         this.dob = dob;
     }
 
-    public Character getIsActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(Character isActive) {
+    public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
 
-    public Character getIsAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(Character isAdmin) {
+    public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
