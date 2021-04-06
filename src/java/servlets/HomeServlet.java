@@ -17,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 813017
  */
-@WebServlet(name = "UsersServlet", urlPatterns = {"/UsersServlet"})
-public class UserServlet extends HttpServlet {
+@WebServlet(name = "HomeServlet", urlPatterns = {"/HomeServlet"})
+public class HomeServlet extends HttpServlet {
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -32,7 +33,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+    getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
     }
 
     /**
@@ -48,4 +49,5 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
        
     }
+
 }
