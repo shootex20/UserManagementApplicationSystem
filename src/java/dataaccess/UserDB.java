@@ -59,7 +59,7 @@ public class UserDB {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         
         try {
-            Users user = em.createNamedQuery("users.findByemail", Users.class).setParameter("email", email).getSingleResult();
+            Users user = em.find(Users.class, email);
             return user;
         } finally {
             em.close();

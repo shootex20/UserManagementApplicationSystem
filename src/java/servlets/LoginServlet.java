@@ -57,36 +57,31 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AccountService as = new AccountService();
-
-        String email = request.getParameter("email");
+        
         String password = request.getParameter("password");
-
+        String email = request.getParameter("email");
+        
+        AccountService as = new AccountService();
         Users user = as.login(email, password);
-
-        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-            request.setAttribute("loginmessage", "Be sure to fill in your log in credentials");
-            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-            return;
-        }
-
+        
         if (user == null) {
-            request.setAttribute("loginmessage", "Login unsuccessful.");
+            request.setAttribute("loginmessage", "Please enter a username and password.");
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             return;
         }
-
+        
         HttpSession session = request.getSession();
-        session.setAttribute("Name", user.getFirstName() + " " + user.getLastName());
+        //session.setAttribute("email", email);
+
         if (user.getIsAdmin() == true && user.getIsActive() == true) {
-            response.sendRedirect("admin");
-
-        } else if (user.getIsActive() == true) {
             response.sendRedirect("home");
-
-        } else {
-            request.setAttribute("loginmessage", "This account is inactive.");
-            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        } else if(user.getIsActive() == true){
+            response.sendRedirect("home");
+        }
+        else
+        {
+        request.setAttribute("loginmessage", "Account is either not active or invalid information has been given.");
+        doGet(request, response);
         }
     }
 }
